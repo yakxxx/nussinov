@@ -19,7 +19,10 @@ class NussinovTest(unittest.TestCase):
         
         for i in xrange(len(self.basic_data)):
             for j in xrange(len(self.basic_data)):
-                self.assertEqual(self.basic.matrix[i][j],0)
+                if i-1 <= j:
+                    self.assertEqual(self.basic.matrix[i][j], 0)
+                else:
+                    self.assertEqual(self.basic.matrix[i][j], -1)
                 
     def test_fill_diagonal(self):
         self.basic._fill_diagonal(1)
@@ -29,10 +32,13 @@ class NussinovTest(unittest.TestCase):
         self.assertEqual(self.basic.matrix[0][3], 2)
         
     def test_build_matrix(self):
-        self.basic.build_matrix()
+        self.basic._build_matrix()
         self.assertEqual(self.basic.matrix[0][3], 2)
         self.assertEqual(self.basic.matrix[1][2], 1)
        
+    def test_generate_trace(self):
+        self.basic._build_matrix()
+        self.basic._generate_trace()
         
 if __name__ == "__main__":
     unittest.main()
