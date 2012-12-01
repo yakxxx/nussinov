@@ -27,6 +27,7 @@ Coverage
 
 ```
 source env/bin/activate
+coverage run tests.py
 coverage report
 ```
 
