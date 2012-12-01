@@ -39,6 +39,9 @@ Runing
 Links
 =====
 http://en.wikipedia.org/wiki/Nucleic_acid_secondary_structure
+
 http://mendel.informatics.indiana.edu/~yye/lab/teaching/getfile.php?what=lecture&name=I519-rnafolding1.pdf
+
 http://narnia.cs.ttu.edu/drupal/node/123
+
 http://ultrastudio.org/en/Nussinov_algorithm
