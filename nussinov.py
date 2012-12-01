@@ -7,7 +7,9 @@ class Nussinov(object):
         self.trace = []
     
     def compute(self):
-        return []
+        self._build_matrix()
+        self._generate_trace()
+        return self.trace
     
     def _build_matrix(self):
         self._init_matrix()
@@ -55,10 +57,7 @@ class Nussinov(object):
                                 for k in xrange(i+1,j) ])
             assert(self.matrix[i][j] == val)
             self._trace_req(i, k)
-            self._trace(k+1, j)
-            
-            
-            
+            self._trace_req(k+1, j)
             
             
             

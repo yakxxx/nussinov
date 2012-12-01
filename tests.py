@@ -40,5 +40,29 @@ class NussinovTest(unittest.TestCase):
         self.basic._build_matrix()
         self.basic._generate_trace()
         
+        
+    def test_acceptance_01(self):
+        nus = Nussinov('GGGAAAUCC')
+        ret = nus.compute()
+        self.assertEqual(len(ret), 3)
+        self.assertIn(ret, ([(1,8), (2,7), (3,6)],
+                            [(1,8), (2,7), (4,6)],
+                            [(1,8), (2,7), (5,6)])
+                      )
+        
+    def test_acceptance_02(self):
+        nus = Nussinov('GGAAACCGAAAC')
+        ret = nus.compute()
+        self.assertEqual(len(ret), 3)
+        self.assertIn(ret,([(0,6), (1,5), (7,11)],
+                          [(0,11), (1,5), (6,7)])
+                      )
+        
+    def test_acceptance_03(self):
+        nus = Nussinov('GCGCGCGCGCGCGCGCGCGCGCGC')
+        ret = nus.compute()
+        self.assertEqual(len(ret), 12)
+        
+        
 if __name__ == "__main__":
     unittest.main()
