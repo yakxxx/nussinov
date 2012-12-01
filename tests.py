@@ -1,6 +1,7 @@
 import unittest
 from pprint import pprint
 from nussinov import Nussinov
+from file_reader import FileReader, WrongData
 
 
 class NussinovTest(unittest.TestCase):
@@ -62,6 +63,30 @@ class NussinovTest(unittest.TestCase):
         nus = Nussinov('GCGCGCGCGCGCGCGCGCGCGCGC')
         ret = nus.compute()
         self.assertEqual(len(ret), 12)
+        
+        
+class FileReaderTest(unittest.TestCase):
+    def setUp(self):
+        self.fr = FileReader('test_data') 
+           
+    def test__check_line(self):
+        self.assertRaises(WrongData, self.fr._check_line, 'AUAGCx')
+        self.assertRaises(WrongData, self.fr._check_line, 'aUGCA')
+        self.assertRaises(WrongData, self.fr._check_line, 'A')
+        try:
+            self.fr._check_line('ACGCGCGCGCGCGAAAUUUU')
+        except:
+            self.fail()
+            
+    def test_get_one_line(self):
+        l = self.fr.get_one_line()
+        self.assertEqual(l, 'GCGCGCGC')
+    
+    def test_iteration(self):
+        count = 0
+        for x in self.fr:
+            count += 1
+        self.assertEqual(count, 3)
         
         
 if __name__ == "__main__":
