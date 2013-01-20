@@ -65,8 +65,12 @@ class MainWindow(QtGui.QWidget):
         vbox.addLayout(RnaCodeHLayout)
         
         RnaCodeHLayout.addWidget(self.RnaCodeTextEdit)
-        runButton = QtGui.QPushButton(self.tr("Run"))
+        runButton = QtGui.QPushButton()
+        runButton.setText(self.tr("Run"))
         runButton.setMaximumSize(50, 50)
+        self.ResultTabView = QtGui.QTableWidget(1,2)
+        
+        QObject.connect(runButton, SIGNAL("clicked()"), self.RunAlgorithm)
         RnaCodeHLayout.addSpacing(20)
         RnaCodeHLayout.addWidget(runButton)
         RnaCodeHLayout.addSpacing(20)
@@ -76,18 +80,17 @@ class MainWindow(QtGui.QWidget):
         ResultLabel.setAlignment(Qt.AlignCenter)
         ResultLabel.setFont(QFont("Times", 12))
         vbox.addWidget(ResultLabel)
-        
         ResultsLayout = QtGui.QHBoxLayout()
         
-        self.ResultTabView = QtGui.QTableWidget(1,2)
         ResultTabHeaders = QStringList( self.tr("Rna Code"))
         ResultTabHeaders.append(self.tr("Result"))
         self.ResultTabView.setHorizontalHeaderLabels(ResultTabHeaders)
         ResultsLayout.addWidget(self.ResultTabView)
         #ResultsLayout.addWidget(ResultTabView2)
-        vbox.addLayout(ResultsLayout)
+        vbox.addLayout(ResultsLayout)        
         
         self.setLayout(vbox)
+        
         
     def showOpenFileDialog(self):
 
@@ -107,15 +110,22 @@ class MainWindow(QtGui.QWidget):
         
         f = open(fname, 'w')
         
+        text = ""        
         with f:
-            #self.ResultTabView.        
-            f.write(("Todo"))
+            #self.ResultTabView.   
+            for row in range(self.ResultTabView.rowCount()):
+                item1 = self.ResultTabView.item(row,0)
+                item2 = self.ResultTabView.item(row,1)
+                text += item1.text() + item2.text()
+            f.write((text))
             f.close()
             
     def RunAlgorithm(self):
         i = 0
         text = self.RnaCodeTextEdit.toPlainText()
         list = text.split(QRegExp("\\s+"))
+        if list.count() == 0 :
+            return
         self.ResultTabView.setRowCount(list.count())
         for line in list:
             nuss = Nussinov(line)
@@ -127,7 +137,7 @@ class MainWindow(QtGui.QWidget):
             i = i + 1
             #self.ResultTabView. .write("%s %s\n" % (len(ret), ret))
         self.ResultTabView.resizeColumnsToContents()
-    
+        
     def center(self):
         screen = QtGui.QDesktopWidget().screenGeometry()
         size = self.geometry()
