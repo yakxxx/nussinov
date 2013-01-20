@@ -123,15 +123,18 @@ class MainWindow(QtGui.QWidget):
     def RunAlgorithm(self):
         i = 0
         text = self.RnaCodeTextEdit.toPlainText()
-        list = text.split(QRegExp("\\s+"))
-        if list.count() == 0 :
+        TextList = text.split(QRegExp("\\s+"))
+        if TextList.count() -1 == 0 :
+            msgBox = QMessageBox()
+            msgBox.setText("Can't run algorithm without data!")
+            msgBox.exec_()
             return
-        self.ResultTabView.setRowCount(list.count())
-        for line in list:
+        self.ResultTabView.setRowCount(TextList.count())
+        for line in TextList:
             nuss = Nussinov(line)
             ret = nuss.compute()
             item1 = QTableWidgetItem(line)
-            item2 = QTableWidgetItem(QString(("%s %s\n" % (len(ret), ret)) ))
+            item2 = QTableWidgetItem(QString(("%s\n" % (ret)) ))
             self.ResultTabView.setItem(i,0,item1)
             self.ResultTabView.setItem(i,1,item2)
             i = i + 1
